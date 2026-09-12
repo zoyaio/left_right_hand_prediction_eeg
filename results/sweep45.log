@@ -1,0 +1,56 @@
+  [ 10/45] extracted (4s)
+  [ 20/45] extracted (8s)
+  [ 30/45] extracted (13s)
+  [ 40/45] extracted (17s)
+  [ 45/45] extracted (19s)
+cached -> ds_a5dd6709a02237c8.npz (19s total)
+
+==========================================================================
+1. HEADLINE: leave-one-subject-out
+==========================================================================
+  uncorrected                        mean 0.677  sd 0.126  median 0.644  range [0.467, 0.956]  >chance 41/45
+  baseline-corrected                 mean 0.538  sd 0.088  median 0.524  range [0.356, 0.822]  >chance 28/45
+
+==========================================================================
+2. THE CONFOUND: accuracy split by switch vs stay trials
+==========================================================================
+   Consecutive trials use different hands 76% of the time. A model that
+   reads the PREVIOUS trial's beta rebound scores well on switch trials
+   and below chance on stay trials.
+
+  uncorrected            overall 0.658 | switch 0.706 (n=1430) | stay 0.506 (n=451) | gap +0.201
+  baseline-corrected     overall 0.529 | switch 0.536 (n=1430) | stay 0.508 (n=451) | gap +0.028
+
+==========================================================================
+3. CONTROLS (all on the baseline-corrected model)
+==========================================================================
+  pre-cue bins only                  mean 0.506  sd 0.070  median 0.511  range [0.356, 0.644]  >chance 25/45
+     (should be ~0.500; the baseline window is 0 by construction)
+  30-50 Hz muscle band               mean 0.515  sd 0.098  median 0.511  range [0.333, 0.800]  >chance 24/45
+     (if this separates L/R we may be reading forearm muscle, not cortex)
+  label permutation null             mean 0.498  sd 0.012  95th pct 0.519
+     observed 0.538 -> empirical p = 0.0196  (50 permutations)
+
+==========================================================================
+4. HOW MUCH IS THE PERSON RATHER THAN THE TASK
+==========================================================================
+  within-subject (leave-one-run-out) mean 0.575  sd 0.088  median 0.556  range [0.378, 0.800]  >chance 37/45
+  cross-subject (LOSO)               mean 0.538
+  gap                                +0.038
+
+  subject-identity probe (un-normalised)       0.230  (chance 0.022)
+     Features identify WHO at 10.3x chance, while identifying WHICH HAND at only 0.538.
+     Per-subject z-scoring is what removes this -- it is doing its job.
+
+  un-normalised: naive random split 0.543 vs correct LOSO 0.534  ->  inflation +0.009
+
+  z-scored: naive random split 0.543 vs correct LOSO 0.525  ->  inflation +0.018
+
+     Note: the usual random-split inflation does NOT appear here, and the
+     reason is worth stating. That inflation comes from subject identity
+     carrying label information. Every subject here is ~50/50 left/right,
+     so knowing WHO a trial came from says nothing about WHICH HAND, and
+     leaking subject identity buys the model nothing. The dangerous leak in
+     this dataset is temporal (the previous trial), not per-subject.
+
+wrote C:\Users\zdzhn\Documents\cal\neurotech_final\results\results.json

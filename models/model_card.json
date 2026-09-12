@@ -1,0 +1,12 @@
+{
+  "task": "left vs right fist, executed movements (runs 3/7/11)",
+  "n_train_subjects": 57,
+  "n_train_trials": 2394,
+  "loso_accuracy": 0.7021720969089389,
+  "C": 0.01,
+  "n_features": 44,
+  "normalisation": "pooled T0 rest within the same recording, label-free",
+  "baseline": "pooled rest (no trial-wise pre-cue subtraction)",
+  "carryover": "A trial-wise pre-cue baseline was tested and rejected: the beta rebound peaks ~2.3 s after movement offset, so the pre-cue window sits on the previous trial's rebound and subtracting it injects carryover. Residual carryover is reported as the switch/stay split, not corrected.",
+  "caveat": "Requires all trials from a recording at once (per-recording normalisation). Not valid for single-trial online use."
+}

@@ -1,0 +1,46 @@
+loading cached features from ds_e6f3960ffb4e4e1f.npz
+  C=0.001   LOSO accuracy 0.6963
+  C=0.01    LOSO accuracy 0.7022
+  C=0.1     LOSO accuracy 0.6984
+  C=1       LOSO accuracy 0.6980
+  C=10      LOSO accuracy 0.6980
+
+selected C=0.01 (LOSO 0.7022); refitting on all subjects
+saved -> C:\Users\zdzhn\Documents\cal\neurotech_final\models\model.joblib
+loading cached features from ds_e6f3960ffb4e4e1f.npz
+
+==========================================================================
+2. FEATURE LAYOUT A vs B -- does coarsening mu cost anything?
+==========================================================================
+  A: mu fine + beta fine             mean 0.699  sd 0.119  median 0.714  range [0.452, 0.976]  >chance 53/57   [44 features]
+  B: mu COARSE + beta fine           mean 0.702  sd 0.127  median 0.714  range [0.429, 0.976]  >chance 53/57   [24 features]
+  C: mu fine + beta COARSE           mean 0.632  sd 0.130  median 0.595  range [0.429, 0.976]  >chance 47/57   [24 features]
+
+  coarsening mu   costs +0.0025
+  coarsening beta costs -0.0668
+  If |coarsening mu| << |coarsening beta|, beta carries the motor-specific signal.
+
+==========================================================================
+8. LABEL STRUCTURE -- does trial position predict the hand?
+==========================================================================
+  position-only classifier           mean 0.497  sd 0.038  median 0.476  range [0.429, 0.571]  >chance 20/57
+  P(right) by position: 0.60 0.40 0.47 0.53 0.46 0.54 0.50 0.50 0.44 0.56 0.47 0.53 0.56 0.44
+  best achievable by position alone (majority per slot): 0.546
+
+  P(consecutive trials use DIFFERENT hands) = 0.771
+  (0.500 would be independent randomisation; the plan claims ~0.76)
+
+wrote C:\Users\zdzhn\Documents\cal\neurotech_final\results\diagnostics.json
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\Users\zdzhn\Documents\cal\neurotech_final\src\plots.py", line 122, in <module>
+    sys.exit(main(int(sys.argv[1]) if len(sys.argv) > 1 else 20))
+             ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\zdzhn\Documents\cal\neurotech_final\src\plots.py", line 114, in main
+    fig_per_subject(results)
+    ~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\zdzhn\Documents\cal\neurotech_final\src\plots.py", line 31, in fig_per_subject
+    raw = results["loso_pooled-rest (naive)"]["per_subject"]
+          ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyError: 'loso_pooled-rest (naive)'

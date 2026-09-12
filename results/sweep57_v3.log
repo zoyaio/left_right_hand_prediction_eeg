@@ -1,0 +1,59 @@
+loading cached features from ds_e6f3960ffb4e4e1f.npz
+
+==============================================================================
+1. HEADLINE: leave-one-subject-out, by baselining scheme
+==============================================================================
+  pooled-rest (primary)              mean 0.699  sd 0.119  median 0.714  range [0.452, 0.976]  >chance 53/57
+  trial-wise pre-cue (injects)       mean 0.700  sd 0.106  median 0.714  range [0.405, 0.952]  >chance 56/57
+  no baseline                        mean 0.721  sd 0.121  median 0.738  range [0.405, 0.976]  >chance 55/57
+
+==============================================================================
+2. THE CONFOUND: accuracy split by switch vs stay trials
+==============================================================================
+   Consecutive trials use different hands ~76% of the time, and the
+   previous trial's beta rebound is still large when the next cue
+   arrives. A model riding that residue scores well when the hand
+   SWITCHES and poorly when it REPEATS.
+
+   Drift in attention/effort hits switch and repeat trials alike, so a
+   gap HERE is carryover specifically, not slow drift.
+
+  pooled-rest (primary)          overall 0.704 | switch 0.722 (n=1714) | stay 0.646 (n=509) | gap +0.075
+  trial-wise pre-cue (injects)   overall 0.704 | switch 0.729 (n=1714) | stay 0.621 (n=509) | gap +0.108
+  no baseline                    overall 0.726 | switch 0.741 (n=1714) | stay 0.674 (n=509) | gap +0.067
+
+   Note the trial-wise arm has the LARGEST gap. Subtracting a pre-cue
+   baseline makes carryover worse here, not better -- see
+   figures/carryover_decay.png for why.
+
+==============================================================================
+3. CONTROLS (on the pooled-rest (primary) model)
+==============================================================================
+  30-50 Hz muscle band               mean 0.601  sd 0.095  median 0.571  range [0.405, 0.857]  >chance 48/57
+     (if this separates L/R we may be reading forearm muscle, not cortex)
+  label permutation null             mean 0.500  sd 0.013  95th pct 0.519
+     observed 0.699 -> empirical p = 0.0099  (100 permutations)
+
+==============================================================================
+4. HOW MUCH IS THE PERSON RATHER THAN THE TASK
+==============================================================================
+  within-subject (leave-one-run-out) mean 0.660  sd 0.145  median 0.643  range [0.333, 1.000]  >chance 50/57
+  cross-subject (LOSO)               mean 0.699
+  gap                                -0.039
+
+  subject-identity probe (un-normalised)       0.573  (chance 0.018)
+     Features identify WHO at 32.7x chance, while identifying WHICH HAND at only 0.699.
+     The per-subject reference is what removes this -- it is doing its job.
+
+  un-normalised: naive random split 0.685 vs correct LOSO 0.686  ->  inflation -0.001
+
+  rest-referenced: naive random split 0.699 vs correct LOSO 0.698  ->  inflation +0.001
+
+     Note: the usual random-split inflation does NOT appear here, and the
+     reason is worth stating. That inflation comes from subject identity
+     carrying label information. Every subject here is ~50/50 left/right,
+     so knowing WHO a trial came from says nothing about WHICH HAND, and
+     leaking subject identity buys the model nothing. The dangerous leak in
+     this dataset is temporal (the previous trial), not per-subject.
+
+wrote C:\Users\zdzhn\Documents\cal\neurotech_final\results\results.json

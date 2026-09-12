@@ -1,0 +1,63 @@
+  [  1/57] S001  42 trials
+  [  2/57] S002  42 trials
+  [  3/57] S003  42 trials
+  [  4/57] S004  42 trials
+  [  5/57] S005  42 trials
+  [  6/57] S006  42 trials
+  [  7/57] S007  42 trials
+  [  8/57] S008  42 trials
+  [  9/57] S009  42 trials
+  [ 10/57] S010  42 trials
+  [ 11/57] S011  42 trials
+  [ 12/57] S012  42 trials
+  [ 13/57] S013  42 trials
+  [ 14/57] S014  42 trials
+  [ 15/57] S015  42 trials
+  [ 16/57] S016  42 trials
+  [ 17/57] S017  42 trials
+  [ 18/57] S018  42 trials
+  [ 19/57] S019  42 trials
+  [ 20/57] S020  42 trials
+  [ 21/57] S021  42 trials
+  [ 22/57] S022  42 trials
+  [ 23/57] S023  42 trials
+  [ 24/57] S024  42 trials
+  [ 25/57] S025  42 trials
+  [ 26/57] S026  42 trials
+  [ 27/57] S027  42 trials
+  [ 28/57] S028  42 trials
+  [ 29/57] S029  42 trials
+  [ 30/57] S030  42 trials
+  [ 31/57] S031  42 trials
+  [ 32/57] S032  42 trials
+  [ 33/57] S033  42 trials
+  [ 34/57] S034  42 trials
+  [ 35/57] S035  42 trials
+  [ 36/57] S036  42 trials
+  [ 37/57] S037  42 trials
+  [ 38/57] S038  42 trials
+  [ 39/57] S039  42 trials
+  [ 40/57] S040  42 trials
+  [ 41/57] S041  42 trials
+  [ 42/57] S042  42 trials
+  [ 43/57] S043  42 trials
+  [ 44/57] S044  42 trials
+  [ 45/57] S045  42 trials
+  [ 46/57] S046  42 trials
+  [ 47/57] S047  42 trials
+  [ 48/57] S048  42 trials
+  [ 49/57] S049  42 trials
+  [ 50/57] S050  42 trials
+  [ 51/57] S051  42 trials
+  [ 52/57] S052  42 trials
+  [ 53/57] S053  42 trials
+  [ 54/57] S054  42 trials
+  [ 55/57] S055  42 trials
+  [ 56/57] S056  42 trials
+  [ 57/57] S057  42 trials
+
+wrote C:\Users\zdzhn\Documents\cal\neurotech_final\figures\carryover_decay.png
+  mu    peak +0.262 at +2.53s after offset | in baseline window (-2,-1): +0.253 = 97% of peak
+  mu    peak +0.262 at +2.53s after offset | in baseline window (-1,+0): +0.214 = 82% of peak
+  beta  peak +0.375 at +2.28s after offset | in baseline window (-2,-1): +0.345 = 92% of peak
+  beta  peak +0.375 at +2.28s after offset | in baseline window (-1,+0): +0.271 = 72% of peak

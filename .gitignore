@@ -1,0 +1,7 @@
+.venv/
+cache/
+__pycache__/
+*.pyc
+download.log
+RESUME.md
+WRITEUP.md
