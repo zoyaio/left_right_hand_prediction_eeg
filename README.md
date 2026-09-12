@@ -9,6 +9,20 @@ made of — and the answer is not what I expected. The signal is carried almost
 entirely by the **post-movement beta rebound**, not by movement itself, and the
 standard correction for the main confound turned out to *create* it.
 
+> ### → [**evaluation.md**](evaluation.md)
+>
+> The full evaluation lives there, and it is where to look for:
+>
+> - **How the data was processed** and how noise was handled
+> - **What the model can and cannot do** — the range across subjects, not the best case
+> - **Why the result is not an artifact of the measurement** — how train and test were chosen
+> - **What the appropriate baselines are** — how much is explained by something other than motor decoding
+> - **How much is the person rather than the task**
+> - **Whether the model learned or memorised** — where it overfits, and to what
+>
+> It opens with a metrics table covering the switch/stay split, the EMG control,
+> and within- vs between-subject accuracy.
+
 ---
 
 ## Quick start
