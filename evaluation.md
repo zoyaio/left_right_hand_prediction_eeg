@@ -4,6 +4,8 @@ Left vs right fist, executed movements (EEGMMIDB runs 3/7/11).
 57 subjects, 2394 trials, leave-one-subject-out.
 All numbers from `results/results.json` and `results/diagnostics.json`.
 
+Hi! To stay within the 10 hour limit and because I spent a lot longer on my demo, I had Claude generate the notes here. I've checked them all for adherence with my thoughts, but I wanted to clarify that because I know that this may come off wrong! I removed some parts that were things I didn't focus my decision-making on and cannot defend. :)
+
 ---
 
 ## Key metrics at a glance
@@ -28,16 +30,15 @@ All numbers from `results/results.json` and `results/diagnostics.json`.
 
 *Switch/stay* is the carryover test. A genuine current-movement decoder is
 indifferent to whether the hand switched; a model riding the previous trial is
-good on switches and poor on repeats. The +0.075 gap is what survives, so 0.646
-is the conservative figure.
+good on switches and poor on repeats. This is what happened before, where the model learnt a shortcut to prediction because of the 76% of trials where the hand switched from the previous trial in the training set.
 
 *EMG* asks whether forearm muscle rather than cortex drives the result. The
 clean band sits 0.162 below the model and only ~3 SD above the null. The 30–50 Hz
 row is shown because it was the originally specified control and turned out to
-be invalid — its filter passes high beta at 0.679, so it was measuring the
+be invalid — its filter passes high beta waves at 0.679, so it was partially measuring the
 signal it was meant to control for.
 
-*Person vs task* asks whether accuracy comes from recognising individuals.
+*Person vs task* asks whether accuracy comes from recognising individuals. This is important because I used a smaller training set (57 subjects) and overfitting on their differences is more likely.
 Cross-subject exceeding within-subject is the wrong direction for that
 explanation. But the per-subject range is wider than the margin over chance,
 so which person you run on matters more than the mean suggests.
@@ -50,7 +51,7 @@ so which person you run on matters more than the mean suggests.
 
 Runs 3, 7 and 11 only — the executed left/right fist runs. Execution rather than
 imagery is a scoping decision: the signal is spatially localised to contralateral
-sensorimotor cortex, which is what justifies the narrow C3/C4 montage below.
+sensorimotor cortex, which is what justifies the narrow C3/C4 montage below. Imagination has a more distributed network, so its my goal for future improvements.
 
 Every run is screened before use and rejected if it fails any of: sampling rate
 ≠ 160 Hz, channel count ≠ 64, any required electrode missing, no T1/T2
@@ -77,12 +78,6 @@ load EDF → standardise channel names → screen
   → StandardScaler → L2 logistic regression
 ```
 
-Two ordering constraints that are easy to get wrong: the Laplacian is applied
-**before** the Hilbert envelope (we want the envelope of the cleaned signal, not
-the difference of two envelopes), and filtering runs on the **continuous**
-recording before epoching, so there is no filter edge artifact at every trial
-boundary.
-
 ### How noise is handled
 
 Each source of noise gets a specific mechanism rather than one generic
@@ -97,9 +92,6 @@ denoising step.
 | Common-mode drift shared by both hemispheres | Kept explicitly as `s` and handed to the model as a nuisance covariate rather than discarded. |
 | Overfitting to noisy features | L2 with C chosen by inner cross-validation. |
 
-**No trials are rejected for amplitude or artifact.** This is deliberate: an
-artifact rejection threshold is a tunable knob that can be turned until the
-result improves. Nothing is dropped except for the structural reasons above.
 
 ### Baselining and standardisation
 
@@ -138,6 +130,7 @@ The headline is **0.699**. That figure describes one specific situation.
 - A **complete EDF file** available at once, including its T0 rest blocks, since
   the baseline is estimated from them
 - Trial times supplied by the file's own T1/T2 annotations
+- This is a side note, but the model learnt that the beta rebound after the motor activity is over is the best predictor of left/right hand. This means it is still predicting after the case, just as if I used EMG. I want to discuss this more in the live conversation, as its one of the biggest challenges that I think betrays the purpose of this project in BCI-applications that I need to improve my model on.
 
 ### The range, not the best case
 
@@ -177,13 +170,6 @@ under 0.22 everywhere else. The honest description is a **post-movement beta
 rebound detector**. Anything that removes or shortens the post-movement window
 removes the result.
 
-**It cannot run online.** The rest baseline needs the whole file. A live BCI
-seeing one trial at a time could not compute it.
-
-**It is not validated on imagined movement**, which is the BCI-relevant case.
-
-**It degrades on repeat trials.** 0.722 when the hand switches from the previous
-trial, 0.646 when it repeats. See §4.
 
 ---
 
@@ -196,22 +182,12 @@ turn as the test set; results are averaged. Nothing from a test subject appears
 in training.
 
 This is the split the task demands — the deliverable is run on people the model
-has never seen. It also neutralises the most obvious leak: if trials from one
-person appeared in both train and test, the model could score by recognising the
-individual rather than the task.
+has never seen, and with only one sample to assess their baseline from (unlike the three that the training set has). 
 
 **Hyperparameter selection is nested.** C is chosen by an inner leave-one-subject-out
 *within the training folds only*. The held-out subject is never seen during
 tuning. Selecting C against the outer test score would inflate the result.
 
-### What the split assumes, and the one assumption that is not safe
-
-A leave-one-subject-out split assumes trials are exchangeable **within** a
-subject. That assumption is false here, and it is the main threat to the result:
-trials are temporally adjacent, and consecutive trials use different hands 77.1%
-of the time. So a model can score by reading the *previous* trial rather than the
-current one. This is treated as a first-class confound in §4 rather than assumed
-away.
 
 ### Checks that the measurement itself is sound
 
@@ -340,7 +316,7 @@ discriminative information is in `d` (0.706).
 
 This is why the model weights the rebound: not because it is bigger, but because
 it is cleaner. At 5.25 s the bilateral component is back at resting level while
-the lateralised component peaks.
+the lateralised component peaks. This is unfortunate because my research findings reflected a different idea, and I thought there was a much stronger neural dynamic between the ipistilateral side and contralateral.  
 
 ### Summary of references
 
@@ -357,53 +333,7 @@ the lateralised component peaks.
 
 ---
 
-## 5. How much of this is about the person rather than the task
-
-### The individual is strongly present in the data
-
-A probe trained to identify **which subject** a trial came from, using
-un-normalised features, reaches **0.573 against a chance of 0.018** — 33× chance.
-Individual identity is one of the strongest signals in this dataset.
-
-### It is removed, and the split makes it useless
-
-- **Leave-one-subject-out** means test subjects are strangers, so identity cannot
-  be used even if present.
-- **Rest z-scoring per subject** is what strips it out of the features.
-- **The Laplacian has zero fitted parameters**, so nothing is calibrated to an
-  individual.
-- **C3/C4 are fixed anatomically**, not selected per subject.
-
-### The quantitative check
-
-| | Accuracy |
-|---|---|
-| Within-subject (leave-one-run-out) | 0.660 |
-| Cross-subject (LOSO) | **0.699** |
-| Gap | **−0.039** |
-
-**Cross-subject is higher than within-subject.** If the model were fitting
-individual quirks, training on a person should beat training on strangers. It
-does not. (Within-subject folds also have far less training data — roughly 28
-trials — which contributes to the gap.)
-
-### But the individual still dominates the variance
-
-| | |
-|---|---|
-| Per-subject range | **0.452 – 0.976** |
-| SD across subjects | 0.119 |
-| Below chance | 4 / 57 |
-
-The model generalises *on average*, but which person you run it on matters far
-more than anything else measured here. A half-point spread across individuals
-against a 0.199 margin over chance means **individual variation is larger than
-the effect itself**. Any deployment claim has to be conditioned on the person,
-not on the mean.
-
----
-
-## 6. Whether the model has learned or memorised
+## 5. Whether the model has learned or memorised
 
 ### Capacity is deliberately small
 
