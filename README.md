@@ -17,7 +17,6 @@ standard correction for the main confound turned out to *create* it.
 > - **What the model can and cannot do** — the range across subjects, not the best case
 > - **Why the result is not an artifact of the measurement** — how train and test were chosen
 > - **What the appropriate baselines are** — how much is explained by something other than motor decoding
-> - **How much is the person rather than the task**
 > - **Whether the model learned or memorised** — where it overfits, and to what
 >
 > It opens with a metrics table covering the switch/stay split, the EMG control,
