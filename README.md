@@ -353,7 +353,17 @@ run_experiments.py           full sweep -> results/results.json
 run_diagnostics.py           layout A/B and label-structure checks
 train.py / predict.py        trained model + CLI
 design.md                    the reasoning written before any code
+neuroscience_..._braindump.pdf   background notes and open questions,
+                             written while reading into the neuroscience
 ```
+
+`design.md` and the braindump PDF are kept as written, not retrofitted to the
+results. Both contain predictions that turned out wrong — most consequentially
+the assumption that the beta rebound is spent within ~1 s of movement offset,
+which is what motivated the original window and which §"the standard correction
+makes it worse" above shows to be off by more than a second. The gap between
+what was predicted and what the data did is the interesting part, so it is left
+visible rather than edited away.
 
 ## AI use
 
